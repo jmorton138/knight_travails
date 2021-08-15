@@ -134,12 +134,12 @@ def breadth_first(graph)
         visited << current
 
         if current[1] == [6,5]
-            p "Number of moves: #{distance[visited.index(current)]}"
+           p "Number of moves: #{distance[visited.index(current)]}"
             # for i in 0..(visited.length - 1) do
             #     p "Distance to #{visited[i]} is #{distance[i]} from path "
             # end
-            p visited
-            return
+            #p visited
+            return visited
         end
         
         #log children of current in queue
@@ -161,8 +161,37 @@ def breadth_first(graph)
     return visited
 end
 #breadth_first([3,3],[4,3], directed_edge_list)
-breadth_first(directed_edge_list)
+
 #visited.index(current) + 1
+visited = breadth_first(directed_edge_list)
+
+def depth_trav(visited, term)
+    arrays = []
+    visited.reduce(visited[0]) do |sum, vertex|
+        if sum == visited[0] && arrays.length != 0
+            arrays.last << visited[0]
+        elsif sum == visited[0]
+            arrays << [sum]
+        end
+        visited.each_with_index do |item, index|
+            if item[0] == term
+                return
+            elsif sum[1] == item[0]
+                arrays.last << item
+                sum = item
+            end
+        end
+    end
+
+    arrays[0].each_with_index do |node, index|
+        p node[0]
+        if index == arrays[0].length - 1
+            p node[1]
+        end
+    end
+end
+depth_trav(visited, [6,5])
+#depth_trav(breadth_first(directed_edge_list), [6,5])
 
 
 
@@ -180,3 +209,16 @@ breadth_first(directed_edge_list)
 # [[7, 3], [6, 1]]
 # ]
 
+# root = visited[0]
+# len = visited.length - 1
+# return if len < 1 || root == nil
+# if root == term
+#     p root
+#     return
+# end
+# visited.each_with_index do |node, index|
+#     return if node == nil
+#     if node[1] == visited[index + 1][0]
+#         depth_trav(visited[(index+1)..len], term)
+#     end
+# end
