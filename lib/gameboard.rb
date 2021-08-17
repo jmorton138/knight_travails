@@ -22,19 +22,18 @@ class Gameboard
     def add_move(vertex)
         moves << vertex
     end
-
     def build_knight_graph(source, term, board)
         root = Node.new(source)
-        return if source == nil
+        return moves if source == nil || moves.include?(source)
+        p source
         self.add_move(source) unless moves.include?(source)
         root.children.each do |child|
-            return if moves.include?(child)
-            return if child == nil
+            #return moves if moves.include?(child)
+            return moves if child == nil
 
             build_knight_graph(child, term, board)
             moves
         end
-        moves
         return moves
     end
 

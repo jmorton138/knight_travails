@@ -37,14 +37,11 @@ def build_children(vertex, nodes = [])
     #nodes = nodes.compact
 end
 
-#p knight_moves([3,3],[4,3], board)
-#graph = board.build_knight_graph([3,3],[4,3], board)
-
 #creates list of all edges in graph
 def edge_list(graph)
     list = []
     directed_edge_list = []
-    graph.each do |outer|
+    graph.each do |outer| #nil class? undefined methods
         graph.each do |inner|
             if build_children(outer).include?(inner)
                 list << [outer, inner]
@@ -54,13 +51,13 @@ def edge_list(graph)
     list
 end
 
-#orders edges into directed list
+#orders edges into directed list i.e., deletes duplicates
 def direct_edge_list(edges)
     directed_edge_list =[]
     edges.map do |item|
         if edges.include?(item.reverse)
             directed_edge_list << item
-            edges.delete(item)
+            edges.delete(item.reverse)
         end
     end
     directed_edge_list
@@ -108,15 +105,7 @@ end
 
 
 
-
-#testarr = [[[2, 4], [4, 3]], [[3, 3], [4, 5]], [[4, 5], [5, 7]], [[4, 5], [2, 4]], [[5, 7], [6, 5]]]
-#graph = [[3, 3], [4, 5], [5, 7], [4, 3], [5, 3], [2, 4], [6, 5], [7, 7], [7, 3], [6, 1]]
-
-
-
 def print_moves(arrays)
-    #p arrays
-    #this prints array properly but array input array isn't right
     arrays.each_with_index do |node, index|
         p node[0]
         if index == arrays.length - 1
@@ -127,7 +116,7 @@ end
 
 def find_path(visited, term)
     array = [visited[0]]
-    distance = 3
+    distance = ""
     counter = 1
     result = visited.reduce(visited[0]) do |sum, vertex|
         # p "sum #{sum}"
@@ -145,41 +134,53 @@ def find_path(visited, term)
         end
         sum = sum
     end
-    #p "endsum #{result}"
+    #p "result: #{result}"
+
+    # if result == nil
+    #     p "visit"
+    #     p visited
+    #     #visited.delete()
+    #     return
+    # end
     if result[1] != term
         visited.delete(result)
         find_path(visited, term)
-    elsif result[1] == term
-        print_moves(array)
+    elsif result != nil && result[1] == term
+        #returns array of moves to term
+        return array
+       # print_moves(array)
     end
-    
 end
 
 def knight_moves(source, term)
     board = Gameboard.new()
     graph = board.build_knight_graph(source, term, board)
     #graph = [[3, 3], [4, 5], [5, 7], [4, 3], [5, 3], [2, 4], [6, 5], [7, 7], [7, 3], [6, 1]]
-
     edges = edge_list(graph)
     directed_edge_list = direct_edge_list(edges)
     visited = breadth_first(directed_edge_list, term)
-    find_path(visited, term)
+    
+    find_path(visited, term) #prints twice, order is correct with sample graph
     #depth_trav(visited, term)
 end
 
-knight_moves([0, 0], [1, 2])
+#knight_moves([3, 3], [4, 3])
 
+source = [3, 3]
+term = [4, 3]
+board = Gameboard.new()
 
+graph = board.build_knight_graph(source, term, board) # still wrong
+p graph.include?([3, 3])
+edges = edge_list(graph) #works with 3, 3, 4,5, doesn't work with [0, 0], [1, 2]
+directed_edge_list = direct_edge_list(edges) #bug - value goes missing
+# #could combine 2 functions saying either or when connecting then deleting afterwards
+# #p directed_edge_list.include?([[4,5], [2,4]]) #true now
 
+visited = breadth_first(directed_edge_list, term)
 
-
-#breadth_first([3,3],[4,3], directed_edge_list)
-
-# edges = edge_list(graph)
-# directed_edge_list = direct_edge_list(edges)
-# visited = breadth_first(directed_edge_list)
-#visited = breadth_first(direct_edge_list(edge_list(graph)))
-
+array = find_path(visited, term) # buggy
+print_moves(array)
 
 
 
