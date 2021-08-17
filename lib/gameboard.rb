@@ -25,15 +25,12 @@ class Gameboard
 
     def build_knight_graph(source, term, board)
         root = Node.new(source)
-        #moves = board.moves
-        #return if moves.include?(root)
         return if source == nil
         self.add_move(source) unless moves.include?(source)
         root.children.each do |child|
             return if moves.include?(child)
             return if child == nil
-            #self.add_move(child)
-            #binding.pry
+
             build_knight_graph(child, term, board)
             moves
         end

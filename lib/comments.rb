@@ -157,3 +157,61 @@ def knight_moves(start_vertex, end_vertex, board)
     p node
     
 end
+
+
+
+def depth_trav(visited, term)
+    if visited[0] == nil || visited.length < 1
+        return
+    end
+    if visited[0][1] == term
+        return
+    end
+    
+    paths = {}
+    visited.reduce do |sum, vertex|
+        if sum == visited[0]
+            paths[sum] = {}
+        end
+        knight = visited.index(vertex)
+        if sum[1] == vertex[0] 
+            paths[sum] = depth_trav(visited[knight..(visited.length-1)], term)
+            sum = vertex
+        else
+            sum = sum 
+        end
+    end
+    p paths
+end
+
+# ####
+# def depth_trav(visited, term)
+
+#     if visited[0][1] == term
+#         return
+#     end
+#     arrays = []
+#     visited.reduce(visited[0]) do |sum, vertex|
+#         #initialize array. First if is redundant?
+#         # if sum == visited[0] && arrays.length != 0
+#         #     arrays.last << visited[0]
+#         # els
+#         if sum == visited[0]
+#             arrays << [sum]
+#         end
+#         #or from reduce?
+
+#         #recursion from each variable?
+#         visited.each_with_index do |item, index|
+#             if item[1] == term
+#                 #what do I want to happen here? How do I need to traverse and store data?
+#                 arrays.last << item
+#                 print_moves(arrays)
+#                 return
+#             elsif sum[1] == item[0]
+#                 arrays.last << item
+#                 sum = item
+#             end
+#         end
+#     end  
+# end
