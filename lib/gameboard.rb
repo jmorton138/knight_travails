@@ -25,7 +25,6 @@ class Gameboard
     def build_knight_graph(source, term, board)
         root = Node.new(source)
         return moves if source == nil || moves.include?(source)
-        p source
         self.add_move(source) unless moves.include?(source)
         root.children.each do |child|
             #return moves if moves.include?(child)
