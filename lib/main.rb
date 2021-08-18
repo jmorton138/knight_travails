@@ -35,7 +35,6 @@ end
 #creates list of all edges in graph
 def edge_list(graph)
     list = []
-    directed_edge_list = []
     graph.each do |outer|
         graph.each do |inner|
             if build_children(outer).include?(inner)
@@ -48,7 +47,6 @@ end
 
 #Traverse graph in breadth order to get distances to each node
 def breadth_first(graph, source, term)
-    counter = 0
     queue = []
     visited = []
     distance = Array.new(graph.length, -1)
@@ -137,7 +135,8 @@ def knight_moves(source, term)
 end
 
 knight_moves([4, 3], [3, 3])
-
+knight_moves([0,0], [3, 3])
+knight_moves([3, 3], [0, 0])
 
 
 
