@@ -36,7 +36,7 @@ end
 def edge_list(graph)
     list = []
     directed_edge_list = []
-    graph.each do |outer| #nil class? undefined methods
+    graph.each do |outer|
         graph.each do |inner|
             if build_children(outer).include?(inner)
                 list << [outer, inner]
@@ -46,7 +46,7 @@ def edge_list(graph)
     list
 end
 
-
+#Traverse graph in breadth order to get distances to each node
 def breadth_first(graph, source, term)
     counter = 0
     queue = []
@@ -56,6 +56,7 @@ def breadth_first(graph, source, term)
     distance[0] = 1
     #save node in Q
     q_count = 0
+    #initialize queue with "root" nodes 
     graph.each_with_index do |item, index|
         if item[0] == source
             queue << item
@@ -63,13 +64,12 @@ def breadth_first(graph, source, term)
             q_count += 1
         end
     end
-    #q_count = 1
-    #need to account for multiple values at root
+
     while !queue.empty?() do
         current = queue.first()
         #save current node as visited
         visited << current
-        if current[1] == term #|| current[0] == term
+        if current[1] == term || current[0] == term
             p "Number of moves: #{distance[visited.index(current)]}"
     
             return find_path(visited, term, distance[visited.index(current)])
@@ -77,12 +77,10 @@ def breadth_first(graph, source, term)
         #log children of current node into queue
         children = build_children(current[1]).compact
         children.each do |child|
-            if !visited.include?([current[1], child]) #&& graph.include?([current[1], child])
+            if !visited.include?([current[1], child])
                 queue << [current[1], child]
                 distance[q_count] = distance[visited.index(current)] + 1
                 q_count += 1
-                # p "Q: #{q_count}" 
-                # p "visited: #{visited}"
             end
         end
         queue.shift()
@@ -101,9 +99,8 @@ def print_moves(arrays)
     end
 end
 
-def find_path(visited, term, distance, array = [visited[0]])
-    # distance = 3 yields an answer conforming to this but still not a palindrome
-    
+#sort shortest path into array
+def find_path(visited, term, distance, array = [visited[0]])    
     visited.delete(visited[0].reverse)
     counter = 1
     result = visited.reduce(visited[0]) do |sum, vertex|
@@ -123,39 +120,26 @@ def find_path(visited, term, distance, array = [visited[0]])
         end
         sum = sum
     end
-    #p "result: #{result}"
     if result[1] != term
         visited.delete(result)
         find_path(visited, term, distance)
     elsif result != nil && result[1] == term
-        #returns array of moves to term
-        # p "distance #{distance}"
         return array
-       # print_moves(array)
     end
 end
+
 
 def knight_moves(source, term)
     board = Gameboard.new()
     graph = board.build_knight_graph(source, term, board)
     edges = edge_list(graph)
-    directed_edge_list = direct_edge_list(edges)
-    visited = breadth_first(directed_edge_list, term)
-    moves_array = find_path(visited, term) 
-    print_moves(moves_array)
+    print_moves(breadth_first(edges, source, term))
 end
 
-#knight_moves([3, 3], [4, 3])
-
-source = [6, 6]
-term = [5, 5]
-board = Gameboard.new()
-
-p graph = board.build_knight_graph(source, term, board) # still wrong
-
-edges = edge_list(graph)
-print_moves(breadth_first(edges, source, term))
+knight_moves([4, 3], [3, 3])
 
 
 
-#level counter seems to work until it doesn't, however still not getting right counts and paths
+
+
+

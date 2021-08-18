@@ -2,9 +2,7 @@ class Node
     attr_accessor :vertex, :children
 
     def initialize(vertex)
-        #[i, j]
         @vertex = vertex 
-        #children
         @children = build_child_nodes(@vertex)
     end
 
@@ -39,7 +37,6 @@ class Node
                 node = node
             end
         end
-        #nodes = nodes.compact
     
     end
 end
