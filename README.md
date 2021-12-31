@@ -17,6 +17,6 @@ Clone the repo to your local machine:
 
 Navigate into the projects directory and run the project from the terminal:
 
-`ruby lib/main.rb`
+`ruby script.rb`
 
 
