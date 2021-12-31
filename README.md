@@ -1,6 +1,6 @@
 # Knight Travails
 
-About this project
+## About this project
 Command line Ruby program that calculates the shortest possible path/number of moves it takes a knight to get from position A to position B on the chessboard.
 
 This was done as the Knight Travails project in The Odin Project's Full Stack Ruby on Rails Curriculum. See the full assignment specifications here: https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-programming/lessons/knights-travails.
